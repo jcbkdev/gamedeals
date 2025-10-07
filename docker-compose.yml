@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./gamedeals-server
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./gamedeals-server:/app
+      - /app/node_modules
+    command: npm run start:dev
+
+  client:
+    build:
+      context: ./gamedeals-client
+    ports:
+      - '4200:4200'
+    volumes:
+      - ./gamedeals-client:/app
+      - /app/node_modules
+    command: npm run start -- --host 0.0.0.0 --disable-host-check
+    depends_on:
+      - server
